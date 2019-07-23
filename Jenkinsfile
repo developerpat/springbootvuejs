@@ -65,15 +65,21 @@ pipeline {
         }
 
         stage('Deployment into Testenvironment'){
-
+            steps {
+                echo 'Deploying SCS-Artefakt into testenvironment'
+            }
         }
 
         stage('Smoke Test'){
-
+            steps{
+                echo 'Smoke-test'
+            }
         }
 
         stage('Security Test'){
-            
+            steps{
+                echo 'OWASP-Test'
+            }
         }
     }
 }
