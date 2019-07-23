@@ -58,6 +58,13 @@ pipeline {
             }
         }
 
+        stage ('Dockerbuild'){
+            steps {
+                echo "Dockerbuild"
+                docker.build("de.pentasys.devops/test")
+            }
+        }
+
         stage('Deployment into Nexus') {
             steps {
                 echo 'Deploying SCS-Artefakt into Nexus'
