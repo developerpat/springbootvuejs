@@ -78,8 +78,9 @@ pipeline {
 
         stage('Security Test'){
             steps{
-                echo 'OWASP-Test'
+                echo "Security Test"
             }
+
         }
     }
 }
