@@ -61,7 +61,7 @@ pipeline {
         stage ('Dockerbuild'){
             steps {
                 echo "Dockerbuild"
-                script "docker build -t de.pentasys.devops/test ."
+                sh "docker build -t de.pentasys.devops/test ."
             }
         }
 
