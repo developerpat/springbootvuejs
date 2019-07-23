@@ -58,10 +58,22 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deployment into Nexus') {
             steps {
-                echo 'Deploying SCS'
+                echo 'Deploying SCS-Artefakt into Nexus'
             }
+        }
+
+        stage('Deployment into Testenvironment'){
+
+        }
+
+        stage('Smoke Test'){
+
+        }
+
+        stage('Security Test'){
+            
         }
     }
 }
