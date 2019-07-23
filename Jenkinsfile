@@ -14,14 +14,50 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building SCS'
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipTests'
             }
         }
-        stage('Test') {
+        
+        stage('First Teststage') {
+            parallel{
+                stage('Unit Testing'){
+                    steps {
+                        echo 'Unit Testing the SCS'
+                        sh 'mvn clean test'
+                    }
+                }
+
+                stage('Integration Testing'){
+                    steps {
+                        echo 'Integration Testing the SCS'
+                        sh 'mvn clean integration-test'
+                    }
+                }
+
+                stage('UI Testing'){
+                    steps {
+                        echo 'UI Testing the SCS'
+                    }
+                }
+            }
+        }
+
+        stage('Sonarqube') {
+            environment {
+                scannerHome = tool 'SonarQube Scanner'
+            }
+    
             steps {
-                echo 'Testing SCS'
+                withSonarQubeEnv('sonarqube') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+                
+                timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+                }
             }
         }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying SCS'
