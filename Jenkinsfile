@@ -94,7 +94,7 @@ pipeline {
                     when {not {branch 'master'}}
                     steps{
                         script{
-                            // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
+                                                        // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
                             pom = readMavenPom file: "backend/pom.xml";
                             // Find built artifact under target folder
                             filesByGlob = findFiles(glob: "backend/target/*.${pom.packaging}");
@@ -131,9 +131,9 @@ pipeline {
                                 error "*** File: ${artifactPath}, could not be found";
                             }
                         }
+                    }
                 }
             }
-
         }
 
         stage('Deployment into Testenvironment'){
