@@ -184,7 +184,6 @@ pipeline {
                     allowEmptyArchive: true,
                     artifacts: '**/dependency-check-report.*',
                     onlyIfSuccessful: true)
-                }
             }
         }
     }
