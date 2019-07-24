@@ -86,7 +86,7 @@ pipeline {
             parallel{
                 stage('Publish Dockerimage'){
                     steps{  
-                        sh "docker push -u jenkins -p jenkins 127.0.0.1:8123/${IMAGE}:${VERSION}"
+                        sh "docker push 127.0.0.1:8123/${IMAGE}:${VERSION}"
                         }
                     }
 
