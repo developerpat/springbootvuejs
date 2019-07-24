@@ -156,6 +156,31 @@ pipeline {
         stage("Dependency Check") {
             steps{
                 sh'mvn org.owasp:dependency-check-maven:check -Ddependency-check-format=XML'
+                dependencyCheckPublisher(pattern: 'build/reports/dependency-check-report.xml')
+            }
+        }
+
+        stage('Deployment into E2E'){
+            steps {
+                echo 'Deploying SCS-Artefakt into E2E'
+            }
+        }
+
+        stage('Smoke Test'){
+            steps{
+                echo 'Smoke-test'
+            }
+        }
+
+        stage('Performance Test'){
+            steps{
+                echo 'Performance-test'
+            }
+        }
+
+        stage('Deployment into Prod'){
+            steps {
+                echo 'Deploying SCS-Artefakt into Prod'
             }
         }
     }
