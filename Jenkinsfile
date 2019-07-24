@@ -153,27 +153,38 @@ pipeline {
             }
         }
 
-        stage('Security Test'){
-            steps{
-                echo "=== security stage ==="
-                echo "=== OWASP dependency check ==="
-                dependencyCheckAnalyzer scanpath: '.', \
-                  outdir: 'depcheck/report', \
-                  datadir: '/var/jenkins_home/depcheck/nvdupdates', \
-                  hintsFile: '', \
-                  includeVulnReports: true, \
-                  includeCsvReports: true, \
-                  includeHtmlReports: true, \
-                  includeJsonReports: true, \
-                  isAutoupdateDisabled: true, \
-                  skipOnScmChange: false, \
-                  skipOnUpstreamChange: false, \
-                  suppressionFile: '', \
-                  zipExtensions: ''
+        stage("Dependency Check") {
+            steps {
+                dependencyCheckAnalyzer(
+                    datadir: 'dependency-check-data',
+                    suppressionFile: '',
+                    hintsFile: '',
+                    includeCsvReports: false,
+                    includeHtmlReports: true,
+                    includeJsonReports: true,
+                    isAutoupdateDisabled: false,
+                    outdir: '',
+                    scanpath: '',
+                    skipOnScmChange: false,
+                    skipOnUpstreamChange: false,
+                    zipExtensions: '',
+                    includeVulnReports: true)
 
-               dependencyCheckPublisher pattern: 'depchec/report/dependency-check-report.xml', \
-                  failedTotalAll: '0', \
-                  usePreviousBuildAsReference: false
+                dependencyCheckPublisher(
+                    canComputeNew: false,
+                    defaultEncoding: '',
+                    failedTotalAll: '2', // fail if greater than 3 vulns
+                    failedTotalHigh: '0', // fail if any high vulns
+                    healthy: '',
+                    pattern: '',
+                    unHealthy: '2' //build is unhealthy while there are more than 2 vulns
+                )
+
+                archiveArtifacts(
+                    allowEmptyArchive: true,
+                    artifacts: '**/dependency-check-report.*',
+                    onlyIfSuccessful: true)
+                }
             }
         }
     }
