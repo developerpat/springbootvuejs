@@ -147,7 +147,7 @@ pipeline {
             }
         }
 
-        stage('Smoke Test'){
+        stage('Smoke Test Testenvironment'){
             steps{
                 echo 'Smoke-test'
             }
@@ -166,7 +166,7 @@ pipeline {
             }
         }
 
-        stage('Smoke Test'){
+        stage('Smoke Test E2E'){
             steps{
                 echo 'Smoke-test'
             }
@@ -181,6 +181,12 @@ pipeline {
         stage('Deployment into Prod'){
             steps {
                 echo 'Deploying SCS-Artefakt into Prod'
+            }
+        }
+
+        stage('Smoke Test Prod'){
+            steps{
+                echo 'Smoke-test'
             }
         }
     }
