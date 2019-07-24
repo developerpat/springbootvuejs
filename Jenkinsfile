@@ -9,6 +9,13 @@ pipeline {
         pollSCM "* * * * *"
     }
 
+    environment{
+        IMAGE = readMavenPom().getArtifactId()
+        VERSION = readMavenPom().getVersion()
+        echo "${IMAGE}"
+        echo "${VERSION}"
+    }
+
     stages {
 
         stage('Build') {
@@ -61,7 +68,7 @@ pipeline {
         stage ('Dockerbuild'){
             steps {
                 echo "Dockerbuild"
-                sh "docker build -t de.pentasys.devops/test ."
+                sh "docker build -t de.pentasys.telefonica/${IMAGE}:${VERSION} ."
             }
         }
 
