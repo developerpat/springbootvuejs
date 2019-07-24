@@ -12,8 +12,6 @@ pipeline {
     environment{
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
-        echo "${IMAGE}"
-        echo "${VERSION}"
     }
 
     stages {
@@ -68,6 +66,8 @@ pipeline {
         stage ('Dockerbuild'){
             steps {
                 echo "Dockerbuild"
+                echo "Imagename: ${IMAGE}"
+                echo "Imageversion: ${VERSION}"
                 sh "docker build -t de.pentasys.telefonica/${IMAGE}:${VERSION} ."
             }
         }
