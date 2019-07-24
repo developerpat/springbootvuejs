@@ -79,7 +79,7 @@ pipeline {
                 echo "Dockerbuild"
                 echo "Imagename: ${IMAGE}"
                 echo "Imageversion: ${VERSION}"
-                sh "docker build -t 127.0.0.1:8123/${GROUPID}${IMAGE}:${VERSION} ."
+                sh "docker build -t 127.0.0.1:8123/${GROUPID}/${IMAGE}:${VERSION} ."
             }
         }
 
