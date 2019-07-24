@@ -155,35 +155,12 @@ pipeline {
 
         stage("Dependency Check") {
             steps {
-                dependencyCheckAnalyzer(
-                    datadir: 'dependency-check-data',
-                    suppressionFile: '',
-                    hintsFile: '',
-                    includeCsvReports: false,
-                    includeHtmlReports: true,
-                    includeJsonReports: true,
-                    isAutoupdateDisabled: false,
-                    outdir: '',
-                    scanpath: '',
-                    skipOnScmChange: false,
-                    skipOnUpstreamChange: false,
-                    zipExtensions: '',
-                    includeVulnReports: true)
+                dependencyCheck()
 
                 dependencyCheckPublisher(
-                    canComputeNew: false,
-                    defaultEncoding: '',
-                    failedTotalAll: '2', // fail if greater than 3 vulns
+                    failedTotalMedium: '2', // fail if greater than 3 vulns
                     failedTotalHigh: '0', // fail if any high vulns
-                    healthy: '',
-                    pattern: '',
-                    unHealthy: '2' //build is unhealthy while there are more than 2 vulns
                 )
-
-                archiveArtifacts(
-                    allowEmptyArchive: true,
-                    artifacts: '**/dependency-check-report.*',
-                    onlyIfSuccessful: true)
             }
         }
     }
