@@ -155,8 +155,8 @@ pipeline {
 
         stage("Dependency Check") {
             steps{
-                sh'mvn org.owasp:dependency-check-maven:check -Ddependency-check-format=XML'
-                dependencyCheckPublisher(pattern: 'target/dependency-check-report.html')
+                sh'mvn org.owasp:dependency-check-maven:check'
+                dependencyCheckPublisher(pattern: 'target/dependency-check-report.xml')
             }
         }
 
