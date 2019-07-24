@@ -90,8 +90,7 @@ pipeline {
                         }
                     }
 
-                stage('Publish Artifacts Snapshot'){
-                    when {not {branch 'master'}}
+                stage('Publish Artifacts'){
                     steps{
                         script{
                             // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
@@ -104,6 +103,11 @@ pipeline {
                             artifactPath = filesByGlob[0].path;
                             // Assign to a boolean response verifying If the artifact name exists
                             artifactExists = fileExists artifactPath;
+                            if(env.BRANCH_NAME != 'master'){
+                                MVN_REPOSITORY='maven-snapshots'
+                            }else{
+                                MVN_REPOSITORY='maven-releases'
+                            }
                             if(artifactExists) {
                                 echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
                                 nexusArtifactUploader(
@@ -112,7 +116,7 @@ pipeline {
                                     nexusUrl: NEXUS_URL,
                                     groupId: pom.groupId,
                                     version: VERSION,
-                                    repository: 'maven-snapshots',
+                                    repository: MVN_REPOSITORY,
                                     credentialsId: 'jenkins_nexus',
                                     artifacts: [
                                         // Artifact generated such as .jar, .ear and .war files.
