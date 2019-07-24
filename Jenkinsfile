@@ -155,8 +155,25 @@ pipeline {
 
         stage('Security Test'){
             steps{
-                echo "Security Test"
-                
+                echo "=== security stage ==="
+                echo "=== OWASP dependency check ==="
+                dependencyCheckAnalyzer scanpath: '.', \
+                  outdir: 'depcheck/report', \
+                  datadir: '/var/jenkins_home/depcheck/nvdupdates', \
+                  hintsFile: '', \
+                  includeVulnReports: true, \
+                  includeCsvReports: true, \
+                  includeHtmlReports: true, \
+                  includeJsonReports: true, \
+                  isAutoupdateDisabled: true, \
+                  skipOnScmChange: false, \
+                  skipOnUpstreamChange: false, \
+                  suppressionFile: '', \
+                  zipExtensions: ''
+
+               dependencyCheckPublisher pattern: 'depchec/report/dependency-check-report.xml', \
+                  failedTotalAll: '0', \
+                  usePreviousBuildAsReference: false
             }
         }
     }
