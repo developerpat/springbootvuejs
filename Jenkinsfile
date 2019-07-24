@@ -154,14 +154,8 @@ pipeline {
         }
 
         stage("Dependency Check") {
-            steps {
-                dependencyCheck()
-
-                dependencyCheckPublisher(
-                    failedTotalMedium: '2', // fail if greater than 3 vulns
-                    failedTotalHigh: '0', // fail if any high vulns
-                )
-            }
+                mvn 'org.owasp:dependency-check-maven:check -Ddependency-check-format=XML'
+                step([$class: 'DependencyCheckPublisher', unstableTotalAll: '0'])
         }
     }
 }
