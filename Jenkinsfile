@@ -79,7 +79,7 @@ pipeline {
                 echo "Dockerbuild"
                 echo "Imagename: ${IMAGE}"
                 echo "Imageversion: ${VERSION}"
-                sh "docker build -t 127.0.0.1:8123/${IMAGE}:${VERSION} ."
+                sh "docker build -t 127.0.0.1:8123/${GROUPID}${IMAGE}:${VERSION} ."
             }
         }
 
@@ -156,8 +156,10 @@ pipeline {
         stage('Security Test'){
             steps{
                 echo "Security Test"
+                dependencyCheckAnalyzer datadir: 'dependency-check-data', isFailOnErrorDisabled: false, hintsFile: '', includeCsvReports: true, includeHtmlReports: true, includeJsonReports: true, isAutoupdateDisabled: false, outdir: '', scanpath: '', skipOnScmChange: false, skipOnUpstreamChange: false, suppressionFile: '', zipExtensions: ''
+                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
+                archiveArtifacts allowEmptyArchive: true, artifacts: '**/dependency-check-report.xml', onlyIfSuccessful: true
             }
-
         }
     }
 }
