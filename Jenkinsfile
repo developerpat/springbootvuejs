@@ -12,6 +12,7 @@ pipeline {
     environment{
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
+        GROUPID = readMavenPom().getGroupId()
 
         
         // This can be nexus3 or nexus2
@@ -86,7 +87,7 @@ pipeline {
             parallel{
                 stage('Publish Dockerimage'){
                     steps{  
-                        sh "docker push 127.0.0.1:8123/${IMAGE}:${VERSION}"
+                        sh "docker push 127.0.0.1:8123/${GROUPID}/${IMAGE}:${VERSION}"
                         }
                     }
 
